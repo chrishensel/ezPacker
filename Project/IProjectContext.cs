@@ -16,11 +16,13 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 using System.IO;
+using ezPacker.Dom;
 
 namespace ezPacker.Project
 {
     interface IProjectContext
     {
         DirectoryInfo GetPhysicalDirectory(string path);
+        FileInfo GetPhysicalFile(string path, IProject project);
     }
 }

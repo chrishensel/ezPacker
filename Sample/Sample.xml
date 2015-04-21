@@ -16,6 +16,6 @@
     <include extension="pdb" force="true" mode="nonLiteralIncludePath" />
   </inclusions>
   <replacements>
-    <replace file="ezPacker.pdb" with="Sample\SomeOtherFile.txt" mode="nonLiteralIncludePath" />
+    <replace file="ezPacker.pdb" with="$\SomeOtherFile.txt" mode="nonLiteralIncludePath" />
   </replacements>
 </configuration>

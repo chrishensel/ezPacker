@@ -21,9 +21,9 @@ So I wrote this little tool, which can do the following...
 # Requirements
 
 - Microsoft .Net Framework 4.5
-- Microsoft Visual Studio 2012
+- Microsoft Visual Studio 2012 or SharpDevelop 5
 
-Maybe it runs on Mono as well, and/or can be opened with Mono/SharpDevelop, but I haven't checked it yet. 
+Maybe it runs on Mono as well, and/or can be opened with MonoDevelop, but I haven't checked it yet. 
 
 # File format
 
@@ -61,6 +61,10 @@ The *basePath* states where the files to be packed are found. The *outPath* is o
 
 These two paths allow to specify "$\" at the beginning, which causes the path to be interpreted *relative to the directory of the project file*.
 
-### Inclusion, Exclusion & Replacement lists
+### Inclusion & Exclusion lists
 
-By default, *ezPacker* interprets files in the *inclusion*, *exclusion* and *replacement* lists as if they are relative to the base directory, since that is what this tool shall do.
+By default, *ezPacker* interprets files in the *inclusion* and *exclusion* lists as if they are relative to the base directory, since that is what this tool shall do.
+
+### Replacements lists
+
+The *replacement* paths are interpreted relative to the base directory by default, however, you may prepend the path with "$\" to have the paths being interpreted relative to the project file.

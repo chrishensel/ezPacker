@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using ezPacker.Dom;
 
 namespace ezPacker.Project
 {
@@ -64,6 +65,21 @@ namespace ezPacker.Project
             }
 
             return new DirectoryInfo(path);
+        }
+
+        FileInfo IProjectContext.GetPhysicalFile(string path, IProject project)
+        {
+            if (path.StartsWith(PlaceRelativeToProjectFileIndicator))
+            {
+                path = path.Replace(PlaceRelativeToProjectFileIndicator, _projectFile.Directory.FullName + "\\");
+            }
+
+            if (!Path.IsPathRooted(path))
+            {
+                path = Path.Combine(project.BasePath.FullName, path);
+            }
+
+            return new FileInfo(path);
         }
 
         #endregion

@@ -98,7 +98,7 @@ namespace ezPacker.Project
             project.Inclusions = inclusions;
         }
 
-        private static void ParseReplacements(XElement root, ProjectImpl project)
+        private static void ParseReplacements(XElement root, ProjectImpl project, IProjectContext context)
         {
             List<Replacement> replacements = new List<Replacement>();
 
@@ -117,7 +117,7 @@ namespace ezPacker.Project
                     }
                     if ((tmp = item.Attribute("with")) != null)
                     {
-                        v.ReplacementFile = new FileInfo(Path.Combine(project.BasePath.FullName, tmp.Value));
+                        v.ReplacementFile = context.GetPhysicalFile(tmp.Value, project);
                     }
                     if ((tmp = item.Attribute("mode")) != null)
                     {
@@ -161,7 +161,7 @@ namespace ezPacker.Project
 
             ParseExclusions(root, project);
             ParseInclusions(root, project);
-            ParseReplacements(root, project);
+            ParseReplacements(root, project, context);
 
             return project;
         }
