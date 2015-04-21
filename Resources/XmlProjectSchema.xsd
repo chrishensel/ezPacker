@@ -5,10 +5,20 @@
       <xs:sequence>
         <xs:element name="name" type="xs:string" />
         <xs:element name="basePath">
+          <xs:annotation>
+            <xs:documentation>
+              Specifies the base directory to use when looking for files to include. This path is interpreted relative to the application path.
+              Use "$\" (include the slash) to place the packed file relative to the configuration file that was used.
+            </xs:documentation>
+          </xs:annotation>
           <xs:complexType>
             <xs:simpleContent>
               <xs:extension base="xs:string">
-                <xs:attribute name="recursive" type="xs:boolean" use="required" />
+                <xs:attribute name="recursive" type="xs:boolean" use="required">
+                  <xs:annotation>
+                    <xs:documentation>Whether or not to scan all files that are only in the &lt;basePath&gt; (false) or in all subdirectories (true).</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
               </xs:extension>
             </xs:simpleContent>
           </xs:complexType>
@@ -42,7 +52,7 @@
                 <xs:complexType>
                   <xs:attribute name="file" type="xs:string" use="optional" />
                   <xs:attribute name="extension" type="xs:string" use="optional" />
-                  <xs:attribute name="force" type="xs:string" use="optional" />
+                  <xs:attribute name="force" type="xs:boolean" use="optional" />
                   <xs:attribute name="mode" type="ezpFileNameComparisonMode" use="optional" />
                 </xs:complexType>
               </xs:element>

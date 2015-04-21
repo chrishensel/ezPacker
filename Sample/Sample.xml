@@ -12,8 +12,8 @@
     <exclude extension="txt" />
   </exclusions>
   <inclusions all="true">
-    <include file="ezPacker.pdb" force="True" />
-    <include extension="pdb" force="True" mode="nonLiteralIncludePath" />
+    <include file="ezPacker.pdb" force="true" />
+    <include extension="pdb" force="true" mode="nonLiteralIncludePath" />
   </inclusions>
   <replacements>
     <replace file="ezPacker.pdb" with="Sample\SomeOtherFile.txt" mode="nonLiteralIncludePath" />
