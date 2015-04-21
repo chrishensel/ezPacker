@@ -24,6 +24,7 @@ namespace ezPacker.Dom
     {
         string Name { get; }
         DirectoryInfo BasePath { get; }
+        DirectoryInfo OutPath { get; }
         string PackedName { get; }
 
         bool IsRecursiveMode { get; }

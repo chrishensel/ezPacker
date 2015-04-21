@@ -62,6 +62,8 @@
     <Compile Include="Dom\Replacement.cs" />
     <Compile Include="Packer\IPacker.cs" />
     <Compile Include="Packer\ZipPacker.cs" />
+    <Compile Include="Project\DefaultProjectContext.cs" />
+    <Compile Include="Project\IProjectContext.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

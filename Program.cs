@@ -42,16 +42,18 @@ namespace ezPacker
             }
             else
             {
-                string path = args[0];
+                FileInfo projectFile = new FileInfo(args[0]);
 
-                WriteInfo("Trying to load configuration file '{0}'...", path);
+                WriteInfo("Trying to load configuration file '{0}'...", projectFile);
 
                 IProject project = null;
 
+                IProjectContext projectContext = new DefaultProjectContext(projectFile);
+
                 IProjectParser parser = new XmlProjectParser();
-                using (FileStream stream = File.OpenRead(path))
+                using (FileStream stream = projectFile.OpenRead())
                 {
-                    project = parser.Parse(stream);
+                    project = parser.Parse(projectContext, stream);
                 }
 
                 IMatcherContext context = new MatcherContext() { Project = project };
@@ -97,7 +99,7 @@ namespace ezPacker
 
                 WriteInfo("Begin packing...");
 
-                string outputFilePath = Path.Combine(project.BasePath.FullName, project.PackedName + ".zip");
+                string outputFilePath = Path.Combine(project.OutPath.FullName, project.PackedName + ".zip");
 
                 using (IPacker packer = new ZipPacker())
                 {

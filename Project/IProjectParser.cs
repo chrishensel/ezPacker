@@ -22,6 +22,6 @@ namespace ezPacker.Project
 {
     interface IProjectParser
     {
-        IProject Parse(Stream stream);
+        IProject Parse(IProjectContext context, Stream stream);
     }
 }

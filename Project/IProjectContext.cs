@@ -15,26 +15,12 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-using System.Collections.Generic;
 using System.IO;
 
-namespace ezPacker.Dom
+namespace ezPacker.Project
 {
-    class ProjectImpl : IProject
+    interface IProjectContext
     {
-        #region IProject Members
-
-        public string Name { get; set; }
-        public DirectoryInfo BasePath { get; set; }
-        public DirectoryInfo OutPath { get; set; }
-        public string PackedName { get; set; }
-
-        public bool IsRecursiveMode { get; set; }
-        public bool IncludeAllByDefault { get; set; }
-        public IReadOnlyList<Include> Inclusions { get; set; }
-        public IReadOnlyList<Exclude> Exclusions { get; set; }
-        public IReadOnlyList<Replacement> Replacements { get; set; }
-
-        #endregion
+        DirectoryInfo GetPhysicalDirectory(string path);
     }
 }

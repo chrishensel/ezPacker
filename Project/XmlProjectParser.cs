@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using ezPacker.Core;
@@ -132,21 +131,11 @@ namespace ezPacker.Project
             project.Replacements = replacements;
         }
 
-        private DirectoryInfo GetDirectoryInfo(string path)
-        {
-            if (!Path.IsPathRooted(path))
-            {
-                path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path);
-            }
-
-            return new DirectoryInfo(path);
-        }
-
         #endregion
 
         #region IProjectParser Members
 
-        IProject IProjectParser.Parse(Stream stream)
+        IProject IProjectParser.Parse(IProjectContext context, Stream stream)
         {
             XDocument doc = XDocument.Load(stream);
             Validate(doc);
@@ -155,8 +144,18 @@ namespace ezPacker.Project
 
             ProjectImpl project = new ProjectImpl();
             project.Name = root.Element("name").Value;
-            project.BasePath = GetDirectoryInfo(root.Element("basePath").Value);
+            project.BasePath = context.GetPhysicalDirectory(root.Element("basePath").Value);
             project.PackedName = root.Element("packedName").Value;
+
+            if (root.Element("outPath") != null)
+            {
+                project.OutPath = context.GetPhysicalDirectory(root.Element("outPath").Value);
+            }
+            else
+            {
+                project.OutPath = project.BasePath;
+            }
+
             project.IsRecursiveMode = bool.Parse(root.Element("basePath").Attribute("recursive").Value);
             project.IncludeAllByDefault = bool.Parse(root.Element("inclusions").Attribute("all").Value);
 

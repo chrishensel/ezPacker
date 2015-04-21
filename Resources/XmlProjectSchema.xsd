@@ -13,6 +13,14 @@
             </xs:simpleContent>
           </xs:complexType>
         </xs:element>
+        <xs:element name="outPath" minOccurs="0" maxOccurs="1" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              Specifies the output directory of the packed file. This path is interpreted relative to the application path.
+              If not present, the &lt;basePath&gt; will be used. Use "$\" (include the slash) to place the packed file relative to the configuration file that was used.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
         <xs:element name="packedName" type="xs:string" />
         <xs:element name="exclusions">
           <xs:complexType>

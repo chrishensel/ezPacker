@@ -2,6 +2,7 @@
 <configuration>
   <name>Sample project</name>
   <basePath recursive="true">.\</basePath>
+  <outPath>$\</outPath>
   <packedName>SamplePackedArchive</packedName>
   <exclusions>
     <exclude extension="pdb" />
