@@ -30,5 +30,6 @@ namespace ezPacker.Dom
         bool IncludeAllByDefault { get; }
         IReadOnlyList<Include> Inclusions { get; }
         IReadOnlyList<Exclude> Exclusions { get; }
+        IReadOnlyList<Replacement> Replacements { get; }
     }
 }

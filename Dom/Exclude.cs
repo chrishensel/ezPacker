@@ -16,6 +16,7 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 using System.IO;
+using ezPacker.Core;
 
 namespace ezPacker.Dom
 {

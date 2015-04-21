@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
+using ezPacker.Core;
 using ezPacker.Dom;
 
 namespace ezPacker.Project
@@ -42,6 +43,7 @@ namespace ezPacker.Project
 
             ParseExclusions(root, project);
             ParseInclusions(root, project);
+            ParseReplacements(root, project);
 
             return project;
         }
@@ -103,6 +105,40 @@ namespace ezPacker.Project
             }
             project.Inclusions = inclusions;
         }
+
+        private static void ParseReplacements(XElement root, ProjectImpl project)
+        {
+            List<Replacement> replacements = new List<Replacement>();
+
+            XElement node = root.Element("replacements");
+            if (node != null)
+            {
+                foreach (XElement item in node.Elements("replace"))
+                {
+                    XAttribute tmp = null;
+
+                    Replacement v = new Replacement();
+
+                    if ((tmp = item.Attribute("file")) != null)
+                    {
+                        v.FileName = tmp.Value;
+                    }
+                    if ((tmp = item.Attribute("with")) != null)
+                    {
+                        v.ReplacementFile = new FileInfo(Path.Combine(project.BasePath.FullName, tmp.Value));
+                    }
+                    if ((tmp = item.Attribute("mode")) != null)
+                    {
+                        v.Mode = (FileNameMode)Enum.Parse(typeof(FileNameMode), tmp.Value, true);
+                    }
+
+                    replacements.Add(v);
+                }
+            }
+
+            project.Replacements = replacements;
+        }
+
 
         private DirectoryInfo GetDirectoryInfo(string path)
         {

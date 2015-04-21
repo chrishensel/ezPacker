@@ -17,7 +17,7 @@
 
 using System.IO;
 
-namespace ezPacker.Dom
+namespace ezPacker.Core
 {
     abstract class FileReference
     {
@@ -25,37 +25,42 @@ namespace ezPacker.Dom
         public string Extension { get; set; }
         public FileNameMode Mode { get; set; }
 
-        public bool Equals(IMatcherContext context, FileInfo file)
+        public bool Equals(IFileContext context, FileInfo file)
         {
-            if (!string.IsNullOrWhiteSpace(this.Extension))
+            return Equals(context, file, this.FileName, this.Extension, this.Mode);
+        }
+
+        public static bool Equals(IFileContext context, FileInfo file, string otherFileName, string otherFileExtension, FileNameMode comparisonMode)
+        {
+            if (!string.IsNullOrWhiteSpace(otherFileExtension))
             {
-                if (!string.Equals(file.Extension, "." + this.Extension))
+                if (!string.Equals(file.Extension, "." + otherFileExtension))
                 {
                     return false;
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(this.FileName))
+            if (!string.IsNullOrWhiteSpace(otherFileName))
             {
-                switch (this.Mode)
+                switch (comparisonMode)
                 {
                     case FileNameMode.Default:
                         {
-                            if (!string.Equals(file.Name, this.FileName))
+                            if (!string.Equals(file.Name, otherFileName))
                             {
                                 return false;
                             }
                         } break;
                     case FileNameMode.NonLiteral:
                         {
-                            if (file.Name.IndexOf(this.FileName, System.StringComparison.OrdinalIgnoreCase) == -1)
+                            if (file.Name.IndexOf(otherFileName, System.StringComparison.OrdinalIgnoreCase) == -1)
                             {
                                 return false;
                             }
                         } break;
                     case FileNameMode.NonLiteralIncludePath:
                         {
-                            if (context.GetRelativePath(file.FullName).IndexOf(this.FileName, System.StringComparison.OrdinalIgnoreCase) == -1)
+                            if (context.GetRelativePath(file.FullName).IndexOf(otherFileName, System.StringComparison.OrdinalIgnoreCase) == -1)
                             {
                                 return false;
                             }

@@ -8,9 +8,13 @@
     <exclude extension="xml" />
     <exclude file="vshost.exe" mode="nonLiteral" />
     <exclude file="exe.config" mode="nonLiteral" />
+    <exclude extension="txt" />
   </exclusions>
   <inclusions all="True">
     <include file="ezPacker.pdb" force="True" />
     <include extension="pdb" force="True" mode="nonLiteralIncludePath" />
   </inclusions>
+  <replacements>
+    <replace file="ezPacker.pdb" with="Sample\SomeOtherFile.txt" mode="nonLiteralIncludePath" />
+  </replacements>
 </configuration>

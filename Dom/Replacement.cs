@@ -15,19 +15,32 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+using System.IO;
 using ezPacker.Core;
 
 namespace ezPacker.Dom
 {
-    class MatcherContext : IMatcherContext
+    class Replacement : FileReference
     {
-        #region IMatcherContext Members
+        #region Properties
 
-        public IProject Project { get; set; }
+        /// <summary>
+        /// Gets/sets the file that acts as the replacement for another file.
+        /// </summary>
+        public FileInfo ReplacementFile { get; set; }
 
-        string IFileContext.GetRelativePath(string path)
+        #endregion
+
+        #region Methods
+
+        internal bool Exists()
         {
-            return path.Replace(Project.BasePath.FullName, "");
+            if (ReplacementFile != null)
+            {
+                return ReplacementFile.Exists;
+            }
+
+            return false;
         }
 
         #endregion

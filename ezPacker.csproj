@@ -46,9 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collector\DefaultFileCollector.cs" />
+    <Compile Include="Collector\IFileCollector.cs" />
+    <Compile Include="Core\IFileContext.cs" />
     <Compile Include="Dom\Exclude.cs" />
-    <Compile Include="Dom\FileNameMode.cs" />
-    <Compile Include="Dom\FileReference.cs" />
+    <Compile Include="Core\FileNameMode.cs" />
+    <Compile Include="Core\FileReference.cs" />
     <Compile Include="Dom\IMatcher.cs" />
     <Compile Include="Dom\IMatcherContext.cs" />
     <Compile Include="Dom\Include.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Dom\Matcher.cs" />
     <Compile Include="Dom\MatcherContext.cs" />
     <Compile Include="Dom\MatchResult.cs" />
+    <Compile Include="Dom\Replacement.cs" />
     <Compile Include="Packer\IPacker.cs" />
     <Compile Include="Packer\ZipPacker.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -78,9 +82,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sample.xml">
+    <Content Include="Sample\Sample.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Sample\SomeOtherFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />

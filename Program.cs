@@ -16,9 +16,8 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using ezPacker.Collector;
 using ezPacker.Dom;
 using ezPacker.Packer;
 using ezPacker.Project;
@@ -57,16 +56,52 @@ namespace ezPacker
 
                 IMatcherContext context = new MatcherContext() { Project = project };
 
-                IList<FileInfo> filesToPack = Matcher.GetMatches(context).ToList();
+                IFileCollector collector = new DefaultFileCollector();
+                foreach (FileInfo item in Matcher.GetMatches(context))
+                {
+                    collector.Add(item);
+                }
 
-                WriteInfo("Success! Found  '{0}' files to include for packing.", filesToPack.Count);
+                WriteInfo("Success! Found  '{0}' possible file(s) to include for packing.", collector.Count);
+
+                if (project.Replacements.Count == 0)
+                {
+                    WriteInfo("No files need to replaced.");
+                }
+                else
+                {
+                    WriteInfo("Trying to replace '{0}' file(s)...", project.Replacements.Count);
+
+                    foreach (Replacement replacement in project.Replacements)
+                    {
+                        WriteInfo("  Attempt to replace file '{0}'...", replacement.FileName);
+                        if (!replacement.Exists())
+                        {
+                            WriteWarning("  ... failed: replacement file '{0}' does not exist!", replacement.ReplacementFile.FullName);
+                            continue;
+                        }
+
+                        bool replaced = collector.Replace(context, replacement.FileName, replacement.ReplacementFile, replacement.Mode);
+                        if (replaced)
+                        {
+                            WriteInfo("  ... succeeded!");
+                        }
+                        else
+                        {
+                            WriteWarning("  ... failed: file to be replaced wasn't found in list of files to be packed.");
+                        }
+                    }
+
+                    WriteInfo("Replacement procedure completed.");
+                }
+
                 WriteInfo("Begin packing...");
 
                 string outputFilePath = Path.Combine(project.BasePath.FullName, project.PackedName + ".zip");
 
                 using (IPacker packer = new ZipPacker())
                 {
-                    foreach (FileInfo file in filesToPack)
+                    foreach (FileInfo file in collector)
                     {
                         if (file.FullName == outputFilePath)
                         {

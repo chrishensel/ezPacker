@@ -15,21 +15,14 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+using System.Collections.Generic;
+using System.IO;
 using ezPacker.Core;
 
-namespace ezPacker.Dom
+namespace ezPacker.Collector
 {
-    class MatcherContext : IMatcherContext
+    interface IFileCollector : ICollection<FileInfo>
     {
-        #region IMatcherContext Members
-
-        public IProject Project { get; set; }
-
-        string IFileContext.GetRelativePath(string path)
-        {
-            return path.Replace(Project.BasePath.FullName, "");
-        }
-
-        #endregion
+        bool Replace(IFileContext context, string file, FileInfo replacement, FileNameMode comparisonMode);
     }
 }
