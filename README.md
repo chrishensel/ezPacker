@@ -6,7 +6,7 @@ I had a relatively simple use-case, which is very tedious to do manually:
 
 > Grab the build output - but not all files - and pack them in a ZIP archive.
 
-I didn't want to write batch scripts, since for this use-case it was just too much, the error handling is annoying to do and quite frankly, I simply shouldn't do that. Also I didn't want to rely on (proprietary) tools, be dependent on TFSBuild or write complicated MSBuild-target files for this.
+I didn't want to write batch scripts, since for this use-case it was just too much, the error handling is annoying to do and quite frankly, I simply shouldn't have to do that. Also I didn't want to rely on (proprietary) tools, be dependent on TFSBuild or write complicated MSBuild-target files for this.
 
 So I wrote this little tool, which can do the following...
 
