@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <name>Sample project</name>
-  <basePath recursive="True">.\</basePath>
+  <basePath recursive="true">.\</basePath>
   <packedName>SamplePackedArchive</packedName>
   <exclusions>
     <exclude extension="pdb" />
@@ -10,7 +10,7 @@
     <exclude file="exe.config" mode="nonLiteral" />
     <exclude extension="txt" />
   </exclusions>
-  <inclusions all="True">
+  <inclusions all="true">
     <include file="ezPacker.pdb" force="True" />
     <include extension="pdb" force="True" mode="nonLiteralIncludePath" />
   </inclusions>

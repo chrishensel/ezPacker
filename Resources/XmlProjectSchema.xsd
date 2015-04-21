@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="configuration">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="name" type="xs:string" />
+        <xs:element name="basePath">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="recursive" type="xs:boolean" use="required" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="packedName" type="xs:string" />
+        <xs:element name="exclusions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="exclude">
+                <xs:complexType>
+                  <xs:attribute name="file" type="xs:string" use="optional" />
+                  <xs:attribute name="extension" type="xs:string" use="optional" />
+                  <xs:attribute name="mode" type="ezpFileNameComparisonMode" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="inclusions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="include">
+                <xs:complexType>
+                  <xs:attribute name="file" type="xs:string" use="optional" />
+                  <xs:attribute name="extension" type="xs:string" use="optional" />
+                  <xs:attribute name="force" type="xs:string" use="optional" />
+                  <xs:attribute name="mode" type="ezpFileNameComparisonMode" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="all" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="replacements">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="replace">
+                <xs:complexType>
+                  <xs:attribute name="file" type="xs:string" use="required" />
+                  <xs:attribute name="with" type="xs:string" use="required" />
+                  <xs:attribute name="mode" type="ezpFileNameComparisonMode" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ezpFileNameComparisonMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="default">
+        <xs:annotation>
+          <xs:documentation>Default matching logic. Checks if the source file and the comparand file name match exactly.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="nonLiteral">
+        <xs:annotation>
+          <xs:documentation>Two file names are only considered matching if the source file name (without path) contains any part of the comparand file name.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="nonLiteralIncludePath">
+        <xs:annotation>
+          <xs:documentation>Two file names are only considered matching if the source file name contains any part of the comparand file name. This includes the full file path.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

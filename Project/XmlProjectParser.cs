@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
+using System.Xml.Schema;
 using ezPacker.Core;
 using ezPacker.Dom;
 
@@ -27,25 +28,17 @@ namespace ezPacker.Project
 {
     class XmlProjectParser : IProjectParser
     {
-        #region IProjectParser Members
+        #region Methods
 
-        IProject IProjectParser.Parse(Stream stream)
+        private static void Validate(XDocument doc)
         {
-            XDocument doc = XDocument.Load(stream);
-            XElement root = doc.Root;
+            XmlSchemaSet xss = new XmlSchemaSet();
+            using (TextReader reader = new StringReader(Properties.Resources.XmlProjectSchema))
+            {
+                xss.Add(XmlSchema.Read(reader, null));
+            }
 
-            ProjectImpl project = new ProjectImpl();
-            project.Name = root.Element("name").Value;
-            project.BasePath = GetDirectoryInfo(root.Element("basePath").Value);
-            project.PackedName = root.Element("packedName").Value;
-            project.IsRecursiveMode = bool.Parse(root.Element("basePath").Attribute("recursive").Value);
-            project.IncludeAllByDefault = bool.Parse(root.Element("inclusions").Attribute("all").Value);
-
-            ParseExclusions(root, project);
-            ParseInclusions(root, project);
-            ParseReplacements(root, project);
-
-            return project;
+            doc.Validate(xss, null);
         }
 
         private static void ParseExclusions(XElement root, ProjectImpl project)
@@ -139,7 +132,6 @@ namespace ezPacker.Project
             project.Replacements = replacements;
         }
 
-
         private DirectoryInfo GetDirectoryInfo(string path)
         {
             if (!Path.IsPathRooted(path))
@@ -148,6 +140,31 @@ namespace ezPacker.Project
             }
 
             return new DirectoryInfo(path);
+        }
+
+        #endregion
+
+        #region IProjectParser Members
+
+        IProject IProjectParser.Parse(Stream stream)
+        {
+            XDocument doc = XDocument.Load(stream);
+            Validate(doc);
+
+            XElement root = doc.Root;
+
+            ProjectImpl project = new ProjectImpl();
+            project.Name = root.Element("name").Value;
+            project.BasePath = GetDirectoryInfo(root.Element("basePath").Value);
+            project.PackedName = root.Element("packedName").Value;
+            project.IsRecursiveMode = bool.Parse(root.Element("basePath").Attribute("recursive").Value);
+            project.IncludeAllByDefault = bool.Parse(root.Element("inclusions").Attribute("all").Value);
+
+            ParseExclusions(root, project);
+            ParseInclusions(root, project);
+            ParseReplacements(root, project);
+
+            return project;
         }
 
         #endregion
