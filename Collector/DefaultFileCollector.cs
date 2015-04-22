@@ -15,30 +15,64 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using ezPacker.Core;
 
 namespace ezPacker.Collector
 {
-    class DefaultFileCollector : Collection<FileInfo>, IFileCollector
+    class DefaultFileCollector : IFileCollector
     {
+        #region Fields
+
+        private Dictionary<string, FileInfo[]> _files;
+
+        #endregion
+
+        #region Constructors
+
+        internal DefaultFileCollector()
+        {
+            _files = new Dictionary<string, FileInfo[]>();
+        }
+
+        #endregion
+
         #region IFileCollector Members
+
+        int IFileCollector.Count
+        {
+            get { return _files.Count; }
+        }
+
+        void IFileCollector.Add(FileInfo file)
+        {
+            _files.Add(file.FullName, new[] { file, file });
+        }
 
         bool IFileCollector.Replace(IFileContext context, string file, FileInfo replacement, FileNameMode comparisonMode)
         {
             bool found = false;
 
-            for (int i = 0; i < this.Items.Count; i++)
+            foreach (var item in _files)
             {
-                if (FileReference.Equals(context, this.Items[i], file, string.Empty, comparisonMode))
+                if (FileReference.Equals(context, item.Value[0], file, string.Empty, comparisonMode))
                 {
-                    this.Items[i] = replacement;
+                    item.Value[1] = replacement;
                     found = true;
                 }
             }
 
             return found;
+        }
+
+        IEnumerable<Tuple<FileInfo, FileInfo>> IFileCollector.GetAll()
+        {
+            foreach (var item in _files.Values)
+            {
+                yield return Tuple.Create(item[0], item[1]);
+            }
         }
 
         #endregion

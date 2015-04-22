@@ -103,16 +103,16 @@ namespace ezPacker
 
                 using (IPacker packer = new ZipPacker())
                 {
-                    foreach (FileInfo file in collector)
+                    foreach (var pair in collector.GetAll())
                     {
-                        if (file.FullName == outputFilePath)
+                        if (pair.Item2.FullName == outputFilePath)
                         {
                             continue;
                         }
 
-                        string archiveFileName = context.GetRelativePath(file.FullName);
+                        string archiveFileName = context.GetRelativePath(pair.Item1.FullName);
 
-                        packer.Add(archiveFileName, file.OpenRead());
+                        packer.Add(archiveFileName, pair.Item2.OpenRead());
 
                         WriteInfo("  Added '{0}'.", archiveFileName);
                     }
