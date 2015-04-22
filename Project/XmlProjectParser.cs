@@ -43,58 +43,70 @@ namespace ezPacker.Project
         private static void ParseExclusions(XElement root, ProjectImpl project)
         {
             List<Exclude> exclusions = new List<Exclude>();
-            foreach (XElement item in root.Element("exclusions").Elements("exclude"))
+
+            XElement node = root.Element("exclusions");
+            if (node != null)
             {
-                XAttribute tmp = null;
-
-                Exclude v = new Exclude();
-
-                if ((tmp = item.Attribute("extension")) != null)
+                foreach (XElement item in node.Elements("exclude"))
                 {
-                    v.Extension = tmp.Value;
-                }
-                if ((tmp = item.Attribute("file")) != null)
-                {
-                    v.FileName = tmp.Value;
-                }
-                if ((tmp = item.Attribute("mode")) != null)
-                {
-                    v.Mode = (FileNameMode)Enum.Parse(typeof(FileNameMode), tmp.Value, true);
-                }
+                    XAttribute tmp = null;
 
-                exclusions.Add(v);
+                    Exclude v = new Exclude();
+
+                    if ((tmp = item.Attribute("extension")) != null)
+                    {
+                        v.Extension = tmp.Value;
+                    }
+                    if ((tmp = item.Attribute("file")) != null)
+                    {
+                        v.FileName = tmp.Value;
+                    }
+                    if ((tmp = item.Attribute("mode")) != null)
+                    {
+                        v.Mode = (FileNameMode)Enum.Parse(typeof(FileNameMode), tmp.Value, true);
+                    }
+
+                    exclusions.Add(v);
+                }
             }
+
             project.Exclusions = exclusions;
         }
 
         private static void ParseInclusions(XElement root, ProjectImpl project)
         {
             List<Include> inclusions = new List<Include>();
-            foreach (XElement item in root.Element("inclusions").Elements("include"))
+
+            XElement node = root.Element("inclusions");
+            if (node != null)
             {
-                XAttribute tmp = null;
+                foreach (XElement item in node.Elements("include"))
+                {
+                    XAttribute tmp = null;
 
-                Include v = new Include();
+                    Include v = new Include();
 
-                if ((tmp = item.Attribute("extension")) != null)
-                {
-                    v.Extension = tmp.Value;
-                }
-                if ((tmp = item.Attribute("file")) != null)
-                {
-                    v.FileName = tmp.Value;
-                }
-                if ((tmp = item.Attribute("force")) != null)
-                {
-                    v.ForceInclude = bool.Parse(tmp.Value);
-                }
-                if ((tmp = item.Attribute("mode")) != null)
-                {
-                    v.Mode = (FileNameMode)Enum.Parse(typeof(FileNameMode), tmp.Value, true);
-                }
+                    if ((tmp = item.Attribute("extension")) != null)
+                    {
+                        v.Extension = tmp.Value;
+                    }
+                    if ((tmp = item.Attribute("file")) != null)
+                    {
+                        v.FileName = tmp.Value;
+                    }
+                    if ((tmp = item.Attribute("force")) != null)
+                    {
+                        v.ForceInclude = bool.Parse(tmp.Value);
+                    }
+                    if ((tmp = item.Attribute("mode")) != null)
+                    {
+                        v.Mode = (FileNameMode)Enum.Parse(typeof(FileNameMode), tmp.Value, true);
+                    }
 
-                inclusions.Add(v);
+                    inclusions.Add(v);
+                }
             }
+
             project.Inclusions = inclusions;
         }
 

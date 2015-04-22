@@ -32,10 +32,10 @@
           </xs:annotation>
         </xs:element>
         <xs:element name="packedName" type="xs:string" />
-        <xs:element name="exclusions">
+        <xs:element name="exclusions" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="exclude">
+              <xs:element maxOccurs="unbounded" minOccurs="1" name="exclude">
                 <xs:complexType>
                   <xs:attribute name="file" type="xs:string" use="optional" />
                   <xs:attribute name="extension" type="xs:string" use="optional" />
@@ -45,10 +45,10 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="inclusions">
+        <xs:element name="inclusions" minOccurs="1" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="include">
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="include">
                 <xs:complexType>
                   <xs:attribute name="file" type="xs:string" use="optional" />
                   <xs:attribute name="extension" type="xs:string" use="optional" />
@@ -60,10 +60,10 @@
             <xs:attribute name="all" type="xs:boolean" use="required" />
           </xs:complexType>
         </xs:element>
-        <xs:element name="replacements">
+        <xs:element name="replacements" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="replace">
+              <xs:element maxOccurs="unbounded" minOccurs="1" name="replace">
                 <xs:complexType>
                   <xs:attribute name="file" type="xs:string" use="required" />
                   <xs:attribute name="with" type="xs:string" use="required" />
