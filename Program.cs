@@ -1,5 +1,5 @@
 ﻿// ezPacker
-// Copyright (C) 2015 Sascha-Christian Hensel
+// Copyright (C) 2016 Sascha-Christian Hensel
 // 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ namespace ezPacker
         static void Main(string[] args)
         {
             WriteInfo("".PadRight(79, '*'));
-            WriteInfo("ezPacker, Copyright (C) 2015 Sascha-Christian Hensel");
+            WriteInfo("ezPacker, Copyright (C) 2016 Sascha-Christian Hensel");
             WriteInfo("ezPacker comes with ABSOLUTELY NO WARRANTY.");
             WriteInfo("This is free software, and you are welcome to redistribute it");
             WriteInfo("under certain conditions; see LICENSE.");
