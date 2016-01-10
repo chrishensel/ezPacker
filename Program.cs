@@ -99,6 +99,11 @@ namespace ezPacker
 
                 WriteInfo("Begin packing...");
 
+                if (!project.OutPath.Exists)
+                {
+                    project.OutPath.Create();
+                }
+
                 string outputFilePath = Path.Combine(project.OutPath.FullName, project.PackedName + ".zip");
 
                 using (IPacker packer = new ZipPacker())
